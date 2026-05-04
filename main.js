@@ -6,6 +6,15 @@ const tasksOfTheDay = [
   { title: 'Planter le jardin', done: false }
 ];
 
+// function utils for a better reading of the code
+
+const byKeepTaskDone = task => task.done === true;
+
+const byKeepTaskNotDone = task => task.done === false;
+
+const printTask = task => console.log(task);
+
+// end of utils functions
 
 /**
  * add a new task to the taskList
@@ -18,6 +27,10 @@ const addTask = (taskList, newTask) => {
     return newTaskList;
 }
 
+function byTitleNotEqual(title){
+    const byTitleNotEqual = task => task.title != title;
+    return byTitleNotEqual;
+}
 /**
  * remove a task on the taskList from his title
  * @param {Object} taskList the list of task on which one the function remove the task with the title done
@@ -25,7 +38,7 @@ const addTask = (taskList, newTask) => {
  * @returns the new list of task
  */
 const removeTask = (taskList, title) => {
-    const newTaskList = taskList.filter(task => task.title != title);
+    const newTaskList = taskList.filter(byTitleNotEqual(title));
     return newTaskList;
 }
 
@@ -41,6 +54,7 @@ const toggleTaskStatus = (task) => {
 }
 
 
+
 /**
  * display in the console the list of the task.
  * if status is undefined, show all tasks
@@ -50,9 +64,16 @@ const toggleTaskStatus = (task) => {
  * @param {boolean | undefined} status 
  */
 const showTask = (taskList, status) => {
-    const list = status != undefined ? taskList.filter(task => task.done === status) : taskList;
+    let list = taskList;
     
-    list.map(task => console.log(task))
+    if(status != undefined){
+        if(status){
+            list = taskList.filter(byKeepTaskDone)
+        }else{
+            list = taskList.filter(byKeepTaskNotDone)
+        }
+    }
+    list.map(printTask)
     
 }
 
